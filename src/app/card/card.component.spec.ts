@@ -9,10 +9,6 @@ describe('CardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CardComponent ],
-      providers: [
-        { provide: String, useValue: 'Spades'},
-        { provide: Number, useValue: 0},
-       ]
     })
     .compileComponents();
   }));
@@ -20,6 +16,8 @@ describe('CardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
+    component.house = 'Spades';
+    component.number = '1';
     fixture.detectChanges();
   });
 
@@ -43,4 +41,5 @@ describe('CardComponent', () => {
   it('must have a number from 0 - 12', () => {
     expect(component.getCardNumber()).toBeLessThan(13);
   });
+  
 });
