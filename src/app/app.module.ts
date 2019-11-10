@@ -6,6 +6,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { LoginModule } from "./login/login.module";
+import { DashboardModule } from "./dashboard/dashboard.module";
+
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSliderModule } from "@angular/material/slider";
@@ -21,7 +23,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatSliderModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    DashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
