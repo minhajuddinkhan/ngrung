@@ -11,6 +11,7 @@ import {
   transition
 } from "@angular/animations";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -32,7 +33,11 @@ export class LoginComponent {
     username: new FormControl("")
   });
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
+  constructor(
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {
     setInterval(() => {
       this.rotate();
     }, 3000);
@@ -47,6 +52,7 @@ export class LoginComponent {
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
         localStorage.setItem("token", resp.token);
+        this.router.navigateByUrl("/dashboard");
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {
