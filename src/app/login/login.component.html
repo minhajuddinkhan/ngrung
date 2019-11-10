@@ -1,7 +1,37 @@
-<label>
-  Name:
-  <input type="text" [formControl]="username" />
-  {{ username.value }}
+<div class="center-div">
+  <div style="width: 100%; display: table;">
+    <div style="display: table-row">
+      <div style="width: 600px; display: table-cell;">
+        <img
+          [@rotatedState]="state"
+          class="cards-img"
+          src="../../assets/logo.png"
+        />
+      </div>
+      <div style="display: table-cell;">
+        <img src="../../assets/namelogo.png" alt="" />
+      </div>
+    </div>
+  </div>
 
-  <button (click)="onLoginClick(username.value)">Login</button>
-</label>
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginClick()">
+    <mat-form-field class="example-full-width">
+      <input
+        formControlName="username"
+        matInput
+        placeholder="username"
+        type="text"
+      />
+    </mat-form-field>
+    <div class="example-button-row login-div">
+      <button
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="login-btn"
+        mat-raised-button
+      >
+        Login
+      </button>
+    </div>
+  </form>
+</div>

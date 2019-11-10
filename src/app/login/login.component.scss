@@ -1,0 +1,30 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.center-div {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-div {
+  text-align: center;
+}
+
+.login-btn {
+  width: 100%;
+}
+
+.cards-img {
+  margin-bottom: 35px;
+}
