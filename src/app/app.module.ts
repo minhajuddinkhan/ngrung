@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatGridListModule } from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [AppComponent, CardComponent],
@@ -24,7 +25,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    DashboardModule
+    DashboardModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
