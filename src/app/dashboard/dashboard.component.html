@@ -8,3 +8,20 @@
 >
   +
 </button>
+
+<mat-grid-list cols="4" rowHeight="300px">
+  <mat-grid-tile *ngFor="let game of games">
+    <div class="card">
+      <div class="icon">
+        <i class="material-icons md-36">keyboard_arrow_right</i>
+      </div>
+      <p class="title">{{ game.game_id }}</p>
+      <p class="text">Players joined: {{ game.players_joined }}</p>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<!-- card -->
+<div class="content"></div>
+<!-- end card -->
+<!-- card -->

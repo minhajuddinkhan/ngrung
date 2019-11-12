@@ -10,7 +10,11 @@ export class DashboardComponent implements OnInit {
   games: any[];
   constructor(private dashboardService: DashboardService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dashboardService
+      .getJoinableGames()
+      .subscribe((resp: any) => (this.games = resp), err => console.log(err));
+  }
 
   createGame() {
     this.dashboardService.createGame().subscribe(

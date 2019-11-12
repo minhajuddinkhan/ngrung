@@ -24,4 +24,18 @@ export class DashboardService {
       httpOptions
     );
   }
+
+  getJoinableGames() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      })
+    };
+
+    return this.httpClient.get(
+      `${environment.rootURL}/api/v1/games`,
+      httpOptions
+    );
+  }
 }
