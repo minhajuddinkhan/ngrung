@@ -1,0 +1,29 @@
+<div class="card" (click)="joinGame(game.game_id)">
+  <mat-progress-spinner
+    *ngIf="showLoader && joinRequest === game.game_id"
+    [color]="color"
+    [mode]="spinnerMode"
+    [value]="value"
+  >
+  </mat-progress-spinner>
+  <div *ngIf="!showLoader">
+    <div class="icon">
+      <img
+        class="player-img"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrRL41eQh9VL5fHlzOO--0_rEXtDMYTg1yUkUc7UAf6gtROud1"
+        alt=""
+      />
+    </div>
+    <br />
+    <span class="progress-bar-card">
+      <mat-progress-bar
+        [color]="color"
+        [mode]="mode"
+        [value]="game.players_joined * 25"
+        [bufferValue]="bufferValue"
+      >
+      </mat-progress-bar>
+    </span>
+    <p class="text">Players joined: {{ game.players_joined }} <br /></p>
+  </div>
+</div>
