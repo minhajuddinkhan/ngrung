@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   createGame() {
     this.dashboardService.createGame().subscribe(
       (resp: any) => {
-        this.games = resp;
+        this.games.push(resp);
         console.log(this.games);
       },
       err => {

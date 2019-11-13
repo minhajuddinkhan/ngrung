@@ -1,21 +1,22 @@
-<button
-  mat-fab
-  matTooltip="Host a new game"
-  aria-label="Button that displays a tooltip when focused or hovered over"
-  class="login-btn floating-bottom-right-btn create-game-btn"
-  (click)="createGame()"
->
-  +
-</button>
+<mat-toolbar class="dashboard-toolbar ">Games to Join</mat-toolbar>
 
-<mat-grid-list cols="4" rowHeight="300px">
-  <mat-grid-tile *ngFor="let game of games">
-    <div class="card">
-      <div class="icon">
-        <i class="material-icons md-36">keyboard_arrow_right</i>
-      </div>
-      <p class="title">{{ game.game_id }}</p>
-      <p class="text">Players joined: {{ game.players_joined }}</p>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list>
+<div>
+  <div>
+    <mat-grid-list cols="4" rowHeight="300px">
+      <mat-grid-tile *ngFor="let game of games">
+        <app-game-card [game]="game"></app-game-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <!-- Floating on bottom right -->
+  <button
+    mat-fab
+    matTooltip="Host a new game"
+    aria-label="Button that displays a tooltip when focused or hovered over"
+    class="login-btn floating-bottom-right-btn create-game-btn"
+    (click)="createGame()"
+  >
+    +
+  </button>
+</div>

@@ -7,12 +7,9 @@ import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { LoginModule } from "./login/login.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
-
+import { GameCardModule } from "./game-card/game-card.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatSliderModule } from "@angular/material/slider";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatGridListModule } from "@angular/material/grid-list";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [AppComponent, CardComponent],
@@ -21,12 +18,10 @@ import { MatGridListModule } from "@angular/material/grid-list";
     AppRoutingModule,
     LoginModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatFormFieldModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
     DashboardModule,
-    MatGridListModule
+    SharedModule,
+    GameCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

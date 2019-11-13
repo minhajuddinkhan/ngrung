@@ -2,13 +2,11 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DashboardComponent } from "./dashboard.component";
 import { DashboardService } from "./dashboard.service";
-import { MatButtonModule } from "@angular/material/button";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatGridListModule } from "@angular/material/grid-list";
-
+import { SharedModule } from "../shared/shared.module";
+import { GameCardModule } from "../game-card/game-card.module";
 @NgModule({
   declarations: [DashboardComponent],
   providers: [DashboardService],
-  imports: [CommonModule, MatButtonModule, MatTooltipModule, MatGridListModule]
+  imports: [SharedModule, CommonModule, GameCardModule]
 })
 export class DashboardModule {}

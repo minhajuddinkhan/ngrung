@@ -66,7 +66,9 @@ export class LoginComponent {
           return;
         }
 
-        this.snackBar.open("something went wrong.");
+        this.snackBar.open("something went wrong.", "oops", {
+          duration: 3 * 1000
+        });
       }
     );
   }
