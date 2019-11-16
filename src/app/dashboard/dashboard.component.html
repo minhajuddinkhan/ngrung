@@ -1,5 +1,13 @@
 <mat-toolbar class="dashboard-toolbar ">Games to Join</mat-toolbar>
 
+<div *ngIf="currentPlayer && currentPlayer.is_host">
+  You have hosted a game, cannot see joinable games.
+</div>
+
+<div *ngIf="currentPlayer && currentPlayer.in_game && !currentPlayer.is_host">
+  You have joined a game, cannot see joinable games.
+</div>
+
 <div>
   <div>
     <mat-grid-list cols="4" rowHeight="300px">
