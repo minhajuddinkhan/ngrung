@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../environments/environment";
+import { Observable } from "rxjs";
+import { Me } from "src/models/game";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +16,7 @@ export class AuthService {
     });
   }
 
-  whoami() {
+  whoami(): Observable<Me> {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -22,6 +24,9 @@ export class AuthService {
       })
     };
 
-    return this.httpClient.get(`${environment.rootURL}/api/v1/me`, httpOptions);
+    return this.httpClient.get<Me>(
+      `${environment.rootURL}/api/v1/me`,
+      httpOptions
+    );
   }
 }

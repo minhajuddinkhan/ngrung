@@ -47,12 +47,33 @@ export class LoginComponent {
     this.state = this.state === "default" ? "rotated" : "default";
   }
 
+  isConnectedToGame(player) {
+    return player.in_game || player.is_host;
+  }
+
+  navigateToJoinGame(gameID: string) {
+    this.router.navigateByUrl(`/game/${gameID}`);
+  }
+
   onLoginClick() {
     const { username } = this.loginForm.value;
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
         localStorage.setItem("token", resp.token);
-        this.router.navigateByUrl("/dashboard");
+
+        this.authService.whoami().subscribe(
+          me => {
+            if (this.isConnectedToGame(me)) {
+              this.navigateToJoinGame(me.game_id);
+              return;
+            }
+
+            this.router.navigateByUrl("/dashboard");
+          },
+          err => {
+            console.log(err);
+          }
+        );
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {
