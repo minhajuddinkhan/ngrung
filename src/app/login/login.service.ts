@@ -16,6 +16,21 @@ export class AuthService {
     });
   }
 
+  logout() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      })
+    };
+
+    return this.httpClient.put(
+      `${environment.rootURL}/api/v1/logout`,
+      {},
+      httpOptions
+    );
+  }
+
   whoami(): Observable<Me> {
     const httpOptions = {
       headers: new HttpHeaders({

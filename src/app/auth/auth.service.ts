@@ -8,8 +8,9 @@ import {
 } from "@angular/router";
 
 import { AuthService } from "../login/login.service";
-import { map } from "rxjs/operators";
+import { map, catchError } from "rxjs/operators";
 import { Me } from "src/models/game";
+import { of } from "rxjs";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -21,6 +22,12 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.auth.whoami().pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          this.router.navigateByUrl("/login");
+          return of([]);
+        }
+      }),
       map((me: Me) => {
         console.log(me);
         if (this.isConnectedToGame(me)) {

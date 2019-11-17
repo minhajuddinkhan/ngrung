@@ -1,4 +1,10 @@
-<mat-toolbar class="dashboard-toolbar ">Games to Join</mat-toolbar>
+<mat-toolbar class="dashboard-toolbar "
+  >Games to Join
+
+  <div>
+    <button (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
 
 <div *ngIf="currentPlayer && currentPlayer.is_host">
   You have hosted a game, cannot see joinable games.

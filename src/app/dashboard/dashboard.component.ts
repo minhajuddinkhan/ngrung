@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DashboardService } from "./dashboard.service";
 import { Router } from "@angular/router";
+import { AuthService } from "../login/login.service";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -11,6 +12,7 @@ export class DashboardComponent implements OnInit {
   currentPlayer: any;
   constructor(
     private dashboardService: DashboardService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -26,6 +28,17 @@ export class DashboardComponent implements OnInit {
     this.dashboardService
       .getJoinableGames()
       .subscribe((resp: any) => (this.games = resp), err => console.log(err));
+  }
+
+  logout() {
+    this.authService.logout().subscribe(
+      resp => {
+        console.log(resp);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   createGame() {
