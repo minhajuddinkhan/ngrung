@@ -8,9 +8,9 @@ import { CardComponent } from "./card/card.component";
 import { LoginModule } from "./login/login.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { GameCardModule } from "./game-card/game-card.module";
+import { TableModule } from "./table/table.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedModule } from "./shared/shared.module";
-
 @NgModule({
   declarations: [AppComponent, CardComponent],
   imports: [
@@ -21,7 +21,8 @@ import { SharedModule } from "./shared/shared.module";
     ReactiveFormsModule,
     DashboardModule,
     SharedModule,
-    GameCardModule
+    GameCardModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
