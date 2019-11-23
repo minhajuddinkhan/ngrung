@@ -11,7 +11,7 @@ export class GameCardService {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        token: localStorage.getItem("token")
+        token: sessionStorage.getItem("token")
       })
     };
 

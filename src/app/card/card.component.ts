@@ -40,7 +40,7 @@ export class CardComponent implements OnInit {
       throw new Error("cant find any house");
     }
     if (!this.numberMap[this.number]) {
-      throw new Error("cant find this number");
+      throw new Error("cant find this number " + this.number);
     }
     this.imageURL = this.constructImageUrl(this.house, this.number);
   }

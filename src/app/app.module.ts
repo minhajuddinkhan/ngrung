@@ -11,8 +11,17 @@ import { GameCardModule } from "./game-card/game-card.module";
 import { TableModule } from "./table/table.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedModule } from "./shared/shared.module";
+// socketio
+
+import { environment } from "../environments/environment";
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+const config: SocketIoConfig = {
+  url: environment.ioclientURL,
+  options: {}
+};
+
 @NgModule({
-  declarations: [AppComponent, CardComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,7 +31,8 @@ import { SharedModule } from "./shared/shared.module";
     DashboardModule,
     SharedModule,
     GameCardModule,
-    TableModule
+    TableModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]

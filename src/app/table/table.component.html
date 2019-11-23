@@ -1,3 +1,5 @@
-<p>
-  table works!
-</p>
+<p>I am player {{ name }}</p>
+
+<div *ngFor="let card of cards">
+  <app-card house="{{ card.House }}" number="{{ card.Number }}"> </app-card>
+</div>

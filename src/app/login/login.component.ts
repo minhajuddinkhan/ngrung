@@ -59,7 +59,7 @@ export class LoginComponent {
     const { username } = this.loginForm.value;
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
-        localStorage.setItem("token", resp.token);
+        sessionStorage.setItem("token", resp.token);
 
         this.authService.whoami().subscribe(
           me => {

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  rootURL: "http://localhost:8001"
+  rootURL: "http://localhost:8001",
+  ioclientURL: "http://localhost:8002/"
 };
 
 /*

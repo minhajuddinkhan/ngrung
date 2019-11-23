@@ -10,7 +10,7 @@ export class GamesService {
 
   getGame(id: number) {
     return this.httpClient.get(`${environment.rootURL}/api/v1/games/${id}`, {
-      headers: { token: localStorage.getItem("token") }
+      headers: { token: sessionStorage.getItem("token") }
     });
   }
 }
