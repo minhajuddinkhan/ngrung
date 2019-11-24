@@ -3,7 +3,7 @@ import { GameCardService } from "./game-card.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Game } from "src/models/game";
 import { Router } from "@angular/router";
-import { Socket } from "ngx-socket-io";
+import { SocketsService } from "../sockets/sockets.service";
 @Component({
   selector: "app-game-card",
   templateUrl: "./game-card.component.html",
@@ -14,7 +14,7 @@ export class GameCardComponent implements OnInit {
     private gameCardService: GameCardService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private socket: Socket
+    private socketService: SocketsService
   ) {}
 
   @Input() game: Game;
@@ -27,7 +27,12 @@ export class GameCardComponent implements OnInit {
   joinRequest: string;
   showLoader = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.socketService.onJoiningGame().subscribe(gameID => {
+      this.toggleSpin("");
+      this.router.navigateByUrl(`/game`);
+    });
+  }
 
   toggleSpin(gameID: string) {
     this.joinRequest = this.joinRequest ? null : gameID;
@@ -42,15 +47,9 @@ export class GameCardComponent implements OnInit {
     this.toggleSpin(gameID);
 
     this.gameCardService.joinGame(gameID).subscribe(
-      resp => {
-        this.socket.emit("join", { game_id: +gameID });
-
-        this.socket.on("join:done", () => {
-          this.toggleSpin("");
-          this.router.navigateByUrl(`/game/${gameID}`);
-        });
-
-        this.socket.on("join:error", err => {
+      () => {
+        this.socketService.joinGame(+gameID);
+        this.socketService.onErrJoiningGame().subscribe(err => {
           throw Error(err);
         });
       },

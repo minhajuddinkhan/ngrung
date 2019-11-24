@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
       .getJoinableGames()
       .subscribe((resp: any) => (this.games = resp), err => console.log(err));
 
-    this.socketService.gameJoinSubject.subscribe(gameId => {
+    this.socketService.onJoiningGame().subscribe(gameId => {
       this.navigateToJoinGame(gameId);
     });
   }
