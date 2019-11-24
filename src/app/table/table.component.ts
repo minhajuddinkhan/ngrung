@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 import { AuthService } from "../login/login.service";
+import { SocketsService } from "../sockets/sockets.service";
 
 @Component({
   selector: "app-table",
@@ -8,7 +9,10 @@ import { AuthService } from "../login/login.service";
   styleUrls: ["./table.component.scss"]
 })
 export class TableComponent implements OnInit {
-  constructor(private socket: Socket, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private socketService: SocketsService
+  ) {}
   name: string;
   cards: any[];
   playerID: number;
@@ -23,15 +27,17 @@ export class TableComponent implements OnInit {
   showLoader = true;
 
   authenticate(cb) {
-    this.socket.emit("authenticate", {
-      token: this.authService.getToken()
+    this.socketService.authenticate();
+    this.socketService.onAuthenticate().subscribe(player => {
+      cb(player);
     });
-    this.socket.on("authenticate:done", player => cb(player));
   }
 
   joinGame(gameID) {
-    this.socket.emit("join", { game_id: gameID });
-    this.socket.on("join:done", () => (this.showLoader = false));
+    this.socketService.joinGame(gameID);
+    this.socketService.onJoiningGame().subscribe(() => {
+      this.showLoader = false;
+    });
   }
 
   onSocketReconnection(gameID) {
@@ -56,11 +62,11 @@ export class TableComponent implements OnInit {
       this.authenticate(() => {});
     });
 
-    this.socket.on("disconnect", () => {
+    this.socketService.onDisconnect().subscribe(() => {
       this.showLoader = true;
     });
 
-    this.socket.on("connect", () => {
+    this.socketService.onReconnect().subscribe(() => {
       if (!this.gameID) {
         this.initializeComponentData(() => {
           this.onSocketReconnection(this.gameID);
@@ -70,7 +76,7 @@ export class TableComponent implements OnInit {
       this.onSocketReconnection(this.gameID);
     });
 
-    this.socket.on("authenticate:done", me => {
+    this.socketService.onAuthenticate().subscribe(me => {
       // TODO:: fix this authenticate done thing...
       if (me) {
         this.playerID = me.player_id;
@@ -80,7 +86,7 @@ export class TableComponent implements OnInit {
       this.showLoader = false;
     });
 
-    this.socket.on("cards", cards => {
+    this.socketService.on("cards").subscribe(cards => {
       this.cards = cards;
     });
   }

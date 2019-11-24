@@ -13,6 +13,7 @@ import {
 } from "@angular/animations";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { SocketsService } from "../sockets/sockets.service";
 
 @Component({
   selector: "app-login",
@@ -28,7 +29,7 @@ import { Router } from "@angular/router";
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   state = "default";
   loginForm = new FormGroup({
     username: new FormControl("")
@@ -38,11 +39,17 @@ export class LoginComponent {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private socket: Socket
+    private socketService: SocketsService
   ) {
     setInterval(() => {
       this.rotate();
     }, 3000);
+  }
+
+  ngOnInit() {
+    this.socketService.onAuthenticate().subscribe(() => {
+      this.navigateFromLogin();
+    });
   }
 
   rotate() {
@@ -53,8 +60,27 @@ export class LoginComponent {
     return player.in_game || player.is_host;
   }
 
-  navigateToJoinGame(gameID: string) {
-    this.router.navigateByUrl(`/game/${gameID}`);
+  gotoTable(gameID: string) {
+    this.router.navigateByUrl(`/game`);
+  }
+  gotoDashboard() {
+    this.router.navigateByUrl("/dashboard");
+  }
+
+  navigateFromLogin() {
+    // SHOULD SEND PLAYER INFORMATION ALONG WITH TOKEN.
+    // SO THAT ANOTHER API CALL CAN BE AVOIDED.
+
+    this.authService.whoami().subscribe(
+      me => {
+        this.isConnectedToGame(me)
+          ? this.gotoTable(me.game_id)
+          : this.gotoDashboard();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onLoginClick() {
@@ -62,29 +88,7 @@ export class LoginComponent {
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
         this.authService.setToken(resp.token);
-        this.socket.emit("authenticate", { token: resp.token });
-
-        this.socket.on("authenticate:error", err => {
-          console.log("err", err);
-        });
-
-        this.socket.on("authenticate:done", done => {
-          this.authService.whoami().subscribe(
-            me => {
-              if (this.isConnectedToGame(me)) {
-                this.navigateToJoinGame(me.game_id);
-                return;
-              }
-
-              this.router.navigateByUrl("/dashboard");
-            },
-            err => {
-              console.log(err);
-            }
-          );
-        });
-        // SHOULD SEND PLAYER INFORMATION ALONG WITH TOKEN.
-        // SO THAT ANOTHER API CALL CAN BE AVOIDED.
+        this.socketService.authenticate();
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {
