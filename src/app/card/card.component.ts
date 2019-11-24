@@ -40,7 +40,7 @@ export class CardComponent implements OnInit {
       throw new Error("cant find any house");
     }
     if (!this.numberMap[this.number]) {
-      throw new Error("cant find this number " + this.number);
+      console.log("cant find this number " + this.number);
     }
     this.imageURL = this.constructImageUrl(this.house, this.number);
   }
@@ -54,7 +54,6 @@ export class CardComponent implements OnInit {
   }
 
   constructImageUrl(house: string, num: string): string {
-    console.log(num);
     const h = this.imageMap[house];
     const n = this.numberMap[num];
     return `../../assets/${n}${h}.jpg`;

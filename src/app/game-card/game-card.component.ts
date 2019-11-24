@@ -3,7 +3,7 @@ import { GameCardService } from "./game-card.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Game } from "src/models/game";
 import { Router } from "@angular/router";
-
+import { Socket } from "ngx-socket-io";
 @Component({
   selector: "app-game-card",
   templateUrl: "./game-card.component.html",
@@ -13,7 +13,8 @@ export class GameCardComponent implements OnInit {
   constructor(
     private gameCardService: GameCardService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private socket: Socket
   ) {}
 
   @Input() game: Game;
@@ -42,9 +43,16 @@ export class GameCardComponent implements OnInit {
 
     this.gameCardService.joinGame(gameID).subscribe(
       resp => {
-        console.log(resp);
-        this.toggleSpin("");
-        this.router.navigateByUrl(`/game/${gameID}`);
+        this.socket.emit("join", { game_id: +gameID });
+
+        this.socket.on("join:done", () => {
+          this.toggleSpin("");
+          this.router.navigateByUrl(`/game/${gameID}`);
+        });
+
+        this.socket.on("join:error", err => {
+          throw Error(err);
+        });
       },
       err => {
         this.snackBar.open(err.error && err.error.message, "", {

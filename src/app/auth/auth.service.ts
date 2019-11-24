@@ -29,7 +29,6 @@ export class AuthGuardService implements CanActivate {
         }
       }),
       map((me: Me) => {
-        console.log(me);
         if (this.isConnectedToGame(me)) {
           this.router.navigateByUrl(`/game/${me.game_id}`);
           return false;

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "./login.service";
+import { Socket } from "ngx-socket-io";
 
 import {
   trigger,
@@ -36,7 +37,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private socket: Socket
   ) {
     setInterval(() => {
       this.rotate();
@@ -60,20 +62,29 @@ export class LoginComponent {
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
         sessionStorage.setItem("token", resp.token);
+        this.socket.emit("authenticate", { token: resp.token });
 
-        this.authService.whoami().subscribe(
-          me => {
-            if (this.isConnectedToGame(me)) {
-              this.navigateToJoinGame(me.game_id);
-              return;
+        this.socket.on("authenticate:error", err => {
+          console.log("err", err);
+        });
+
+        this.socket.on("authenticate:done", done => {
+          this.authService.whoami().subscribe(
+            me => {
+              if (this.isConnectedToGame(me)) {
+                this.navigateToJoinGame(me.game_id);
+                return;
+              }
+
+              this.router.navigateByUrl("/dashboard");
+            },
+            err => {
+              console.log(err);
             }
-
-            this.router.navigateByUrl("/dashboard");
-          },
-          err => {
-            console.log(err);
-          }
-        );
+          );
+        });
+        // SHOULD SEND PLAYER INFORMATION ALONG WITH TOKEN.
+        // SO THAT ANOTHER API CALL CAN BE AVOIDED.
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {
