@@ -61,7 +61,7 @@ export class LoginComponent {
     const { username } = this.loginForm.value;
     this.authService.authenticate(username).subscribe(
       (resp: any) => {
-        sessionStorage.setItem("token", resp.token);
+        this.authService.setToken(resp.token);
         this.socket.emit("authenticate", { token: resp.token });
 
         this.socket.on("authenticate:error", err => {

@@ -9,8 +9,6 @@ export class GamesService {
   constructor(private httpClient: HttpClient) {}
 
   getGame(id: number) {
-    return this.httpClient.get(`${environment.rootURL}/api/v1/games/${id}`, {
-      headers: { token: sessionStorage.getItem("token") }
-    });
+    return this.httpClient.get(`${environment.rootURL}/api/v1/games/${id}`, {});
   }
 }
