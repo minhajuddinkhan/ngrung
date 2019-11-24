@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DashboardService } from "./dashboard.service";
 import { Router } from "@angular/router";
 import { AuthService } from "../login/login.service";
-import { Socket } from "ngx-socket-io";
+import { SocketsService } from "../sockets/sockets.service";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     private authService: AuthService,
     private router: Router,
-    private socket: Socket
+    private socketService: SocketsService
   ) {}
 
   isConnectedToGame(player) {
@@ -30,6 +30,10 @@ export class DashboardComponent implements OnInit {
     this.dashboardService
       .getJoinableGames()
       .subscribe((resp: any) => (this.games = resp), err => console.log(err));
+
+    this.socketService.gameJoinSubject.subscribe(gameId => {
+      this.navigateToJoinGame(gameId);
+    });
   }
 
   logout() {
@@ -39,10 +43,7 @@ export class DashboardComponent implements OnInit {
   createGame() {
     this.dashboardService.createGame().subscribe(
       (resp: any) => {
-        this.socket.emit("join", { game_id: resp.game_id });
-        this.socket.on("join:done", () => {
-          this.router.navigateByUrl(`/game/${resp.game_id}`);
-        });
+        this.socketService.joinGame(resp.game_id);
       },
       err => {
         console.log("error", err);
