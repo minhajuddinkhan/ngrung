@@ -1,5 +1,20 @@
-<p>I am player {{ name }}</p>
+<div>
+  <div *ngIf="!showLoader">
+    <p>I am player {{ name }}</p>
+    <div *ngFor="let card of cards">
+      <app-card house="{{ card.house }}" number="{{ card.number }}"> </app-card>
+    </div>
+  </div>
 
-<div *ngFor="let card of cards">
-  <app-card house="{{ card.House }}" number="{{ card.Number }}"> </app-card>
+  <div class="center-div" *ngIf="showLoader">
+    <h1>Having Connectivity Issues</h1>
+    <h2>Trying to join you back to the game...</h2>
+
+    <mat-progress-spinner
+      *ngIf="showLoader"
+      [color]="color"
+      [mode]="spinnerMode"
+      [value]="value"
+    ></mat-progress-spinner>
+  </div>
 </div>
