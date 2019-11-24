@@ -10,15 +10,17 @@ export class CardComponent implements OnInit {
   @Input() house: string;
   @Input() number: string;
   private imageURL: string;
-  private houses = ["Spades", "Clubs", "Diamonds", "Hearts"];
+  private houses = ["Spades", "Clubs", "Diamonds", "Hearts", "0"];
   private imageMap = {
     Spades: "S",
     Hearts: "H",
     Clubs: "C",
-    Diamonds: "D"
+    Diamonds: "D",
+    "0": 0
   };
 
   private numberMap = {
+    "-1": "0",
     0: "2",
     1: "3",
     2: "4",
