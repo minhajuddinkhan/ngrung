@@ -15,33 +15,18 @@ export class AuthService {
       username
     });
   }
+  getToken() {
+    return sessionStorage.getItem("token");
+  }
+  setToken(token: string) {
+    sessionStorage.setItem("token", token);
+  }
 
   logout() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        token: sessionStorage.getItem("token")
-      })
-    };
-
-    return this.httpClient.put(
-      `${environment.rootURL}/api/v1/logout`,
-      {},
-      httpOptions
-    );
+    return this.httpClient.put(`${environment.rootURL}/api/v1/logout`, {});
   }
 
   whoami(): Observable<Me> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        token: sessionStorage.getItem("token")
-      })
-    };
-
-    return this.httpClient.get<Me>(
-      `${environment.rootURL}/api/v1/me`,
-      httpOptions
-    );
+    return this.httpClient.get<Me>(`${environment.rootURL}/api/v1/me`);
   }
 }

@@ -2,9 +2,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { TokenInterceptor } from "../app/auth/auth.interceptor";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { CardComponent } from "./card/card.component";
 import { LoginModule } from "./login/login.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { GameCardModule } from "./game-card/game-card.module";
@@ -34,7 +35,13 @@ const config: SocketIoConfig = {
     TableModule,
     SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

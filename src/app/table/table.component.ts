@@ -24,7 +24,7 @@ export class TableComponent implements OnInit {
 
   authenticate(cb) {
     this.socket.emit("authenticate", {
-      token: sessionStorage.getItem("token")
+      token: this.authService.getToken()
     });
     this.socket.on("authenticate:done", player => cb(player));
   }
@@ -53,9 +53,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.initializeComponentData(() => {
-      this.authenticate(() => {
-        console.log("comp initialized..");
-      });
+      this.authenticate(() => {});
     });
 
     this.socket.on("disconnect", () => {
@@ -83,7 +81,6 @@ export class TableComponent implements OnInit {
     });
 
     this.socket.on("cards", cards => {
-      console.log("got cards");
       this.cards = cards;
     });
   }

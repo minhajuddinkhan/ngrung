@@ -8,16 +8,8 @@ export class GameCardService {
   constructor(private httpClient: HttpClient) {}
 
   joinGame(gameID: string) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        token: sessionStorage.getItem("token")
-      })
-    };
-
     return this.httpClient.get(
-      `${environment.rootURL}/api/v1/games/${gameID}/join`,
-      httpOptions
+      `${environment.rootURL}/api/v1/games/${gameID}/join`
     );
   }
 }
